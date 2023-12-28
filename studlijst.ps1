@@ -4,14 +4,14 @@
 
 #open Excel
 $excel=New-Object -ComObject Excel.Application
-$workbook=$excel.WorkBooks.Open('C:\data\s3-i-db-T-22nj.xlsx')
+$workbook=$excel.WorkBooks.Open('C:\data\stud.xlsx')
 $ws=$workbook.WorkSheets.item(1)
 $ws1=$workbook.WorkSheets(1)
 $excel.Visible = $True
 $MissingType = [System.Type]::Missing
 $studs =@()
 # kolom is column with studentname
-$kolom=6
+$kolom=7
 #$aantal = 10
 #$begin = 2
 $vakantie =@()
@@ -44,10 +44,12 @@ $WorksheetCount = $aantal
 $ColumnSelect = $ws.Columns("A:A")
 $ColumnSelect.Insert()
 $ws1.Cells.item(1,1).value2="lesweken"
-$ColumnSelect = $ws.Columns("L:L")
+$ColumnSelect = $ws.Columns("H:H")
 $ColumnSelect.Insert()
-$ws1.columns.item(12).NumberFormat = "dd/mm/jjjj"
-$ws1.Cells.item(1,12).value2="laatste contact"
+$ws1.columns.item(8).NumberFormat = "dd/mm/jjjj"
+$ws1.Cells.item(1,8).value2="laatste contact"
+$ws1.Columns.item(5).NumberFormat = "General"
+$ws1.Columns.item(6).NumberFormat = "General"
  
  #make week worksheets
  $calenderweek = 1
@@ -57,7 +59,7 @@ $ws1.Cells.item(1,12).value2="laatste contact"
   $lesweek = 1
   $weekrow=2
   $laatsteweek=19
-  $presentie=15
+  $presentie=10
   # begin loop
   while ($lesweek -ne $laatsteweek ) {
 #$begin
@@ -171,7 +173,7 @@ if (($naam -notin $($workbook.worksheets).Name)){
 
     # fill column lastcontact 
     $lastcontact = "=Lookup(2;1/('$naam'!A:A<>"""");'$naam'!A:A)"
-    $ws1.Cells.item($begin,12).formulalocal=$lastcontact
+    $ws1.Cells.item($begin,8).formulalocal=$lastcontact
  
     #on to the next
     $begin = $begin + 1 
@@ -180,6 +182,3 @@ if (($naam -notin $($workbook.worksheets).Name)){
   
  $workbook.SaveAs('c:\data\s3-i-db-T-22nj-new.xlsx')
  $excel.Quit()
-
-
-
